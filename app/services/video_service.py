@@ -2,12 +2,33 @@
 from ultralytics import YOLO
 import cv2
 import os
+from pathlib import Path
 
-# AI Weapon Detection Model
-model = YOLO("models/weapon.pt")
+# Model path
+PROJECT_ROOT = Path(__file__).resolve().parents[2]
+MODEL_PATH = PROJECT_ROOT / "models" / "weapon.pt"
+
+# Lazy loading
+model = None
+
+
+def get_video_model():
+    global model
+
+    if model is None:
+        if not MODEL_PATH.exists():
+            raise FileNotFoundError(
+                f"Weapon model not found: {MODEL_PATH}"
+            )
+
+        model = YOLO(str(MODEL_PATH))
+
+    return model
 
 
 def detect_video(input_path, output_path):
+    video_model = get_video_model()
+
     cap = cv2.VideoCapture(input_path)
 
     if not cap.isOpened():
@@ -38,7 +59,7 @@ def detect_video(input_path, output_path):
                 break
 
             # AI Detection
-            results = model(frame, verbose=False)
+            results = video_model(frame, verbose=False)
             annotated = results[0].plot()
 
             alarm = False
@@ -53,7 +74,7 @@ def detect_video(input_path, output_path):
                     confidence = round(conf * 100, 1)
 
                     cls = int(box.cls[0])
-                    weapon_name = model.names[cls]
+                    weapon_name = video_model.names[cls]
 
                     break
 
