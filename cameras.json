@@ -1,0 +1,26 @@
+[
+    {
+        "id": "CAM-01",
+        "room": "CLASS-1",
+        "zone": "STUDENT",
+        "type": "USB Webcam",
+        "source": "2",
+        "status": "NOT CONFIGURED"
+    },
+    {
+        "id": "string",
+        "room": "string",
+        "zone": "string",
+        "type": "string",
+        "source": "",
+        "status": "NOT CONFIGURED"
+    },
+    {
+        "id": "CAM-TEST-02",
+        "room": "CLASS-2",
+        "zone": "STUDENT",
+        "type": "USB Webcam",
+        "source": "",
+        "status": "NOT CONFIGURED"
+    }
+]

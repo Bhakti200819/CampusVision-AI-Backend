@@ -1,0 +1,28 @@
+[
+    {
+        "incident_id": "INC-F3E6AABE",
+        "camera_id": "CAM-01",
+        "classroom": "CLASS-1",
+        "detection_type": "Mobile Phone",
+        "confidence": 0.98,
+        "mobile_image": null,
+        "face_snapshot": null,
+        "date": "2026-11-03",
+        "day": "Tuesday",
+        "time": "15:07:15",
+        "status": "OPEN"
+    },
+    {
+        "incident_id": "INC-CFC12392",
+        "camera_id": "CAM-01",
+        "classroom": "CLASS-1",
+        "detection_type": "Mobile Phone",
+        "confidence": 0.95,
+        "mobile_image": null,
+        "face_snapshot": null,
+        "date": "2026-10-31",
+        "day": "Saturday",
+        "time": "16:19:24",
+        "status": "OPEN"
+    }
+]
