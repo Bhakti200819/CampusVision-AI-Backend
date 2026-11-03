@@ -5,7 +5,18 @@ from fastapi import UploadFile
 
 MODEL_PATH = os.path.join("models", "weapon.pt")
 
-model = YOLO(MODEL_PATH)
+model = None
+
+def get_weapon_model():
+    global model
+
+    if model is None:
+        if not os.path.exists(MODEL_PATH):
+            raise FileNotFoundError("Weapon model not found: " + MODEL_PATH)
+
+        model = YOLO(MODEL_PATH)
+
+    return model
 
 os.makedirs("uploads", exist_ok=True)
 os.makedirs("outputs", exist_ok=True)
