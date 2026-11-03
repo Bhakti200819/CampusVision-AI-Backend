@@ -12,6 +12,11 @@ PROJECT_ROOT = Path(__file__).resolve().parents[2]
 PERSON_MODEL_PATH = PROJECT_ROOT / "models" / "yolov8n.pt"
 MOBILE_MODEL_PATH = PROJECT_ROOT / "models" / "mobile_best.pt"
 
+print("PROJECT ROOT:", PROJECT_ROOT)
+print("MODELS FOLDER EXISTS:", (PROJECT_ROOT / "models").exists())
+print("MODEL FILES:", list((PROJECT_ROOT / "models").glob("*")))
+print("MOBILE MODEL EXISTS:", MOBILE_MODEL_PATH.exists())
+
 person_model = YOLO(str(PERSON_MODEL_PATH))
 mobile_model = YOLO(str(MOBILE_MODEL_PATH))
 
