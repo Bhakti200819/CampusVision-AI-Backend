@@ -52,3 +52,4 @@ urllib3==2.8.0
 uvicorn==0.54.0
 SQLAlchemy
 python-dotenv
+pwdlib[argon2]
