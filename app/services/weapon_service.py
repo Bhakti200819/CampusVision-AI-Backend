@@ -33,7 +33,7 @@ def detect_weapon(image_path):
     if image is None:
         return None
 
-    results = model(image)
+    results = get_weapon_model()(image)
 
     alarm = False
 
@@ -111,7 +111,7 @@ async def detect_video_weapon(file: UploadFile):
         if not ret:
             break
 
-        results = model(frame)
+        results = get_weapon_model()(frame)
 
         alarm = False
 
