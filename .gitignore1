@@ -1,0 +1,9 @@
+.env
+*.db
+__pycache__/
+*.pyc
+venv/
+.venv/
+uploads/
+outputs/
+student_crops/
