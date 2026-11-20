@@ -14,11 +14,13 @@ from app.auth_dependencies import get_current_user
 router = APIRouter()
 
 
+
 class RegisterRequest(BaseModel):
     full_name: str
     email: EmailStr
     password: str
-   role: Literal["teacher"] = "teacher"
+    role: Literal["teacher"] = "teacher"
+
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
