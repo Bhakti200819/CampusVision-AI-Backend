@@ -1,6 +1,7 @@
 from app.auth_database import Base, engine
 from app.models.auth_user import User
 from app.models.notification import Notification, IncidentWorkflow
+from app.models.user_assignment import UserAssignment
 from app.routes.auth import router as auth_router
 from pathlib import Path
 
