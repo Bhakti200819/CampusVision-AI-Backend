@@ -18,8 +18,7 @@ class RegisterRequest(BaseModel):
     full_name: str
     email: EmailStr
     password: str
-    role: Literal["teacher", "hod", "principal"] = "teacher"
-
+   role: Literal["teacher"] = "teacher"
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str
