@@ -100,3 +100,50 @@ def get_my_profile(
         "message": "Token verified successfully",
         "user": current_user
     }
+class AdminCreateUserRequest(BaseModel):
+    full_name: str
+    email: EmailStr
+    password: str
+    role: Literal["teacher", "hod", "principal", "admin"]
+
+
+@router.post("/admin/users")
+def admin_create_user(
+    data: AdminCreateUserRequest,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_auth_db)
+):
+    if current_user.get("role") != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Only Admin can create users"
+        )
+
+    existing_user = db.query(User).filter(
+        User.email == data.email
+    ).first()
+
+    if existing_user:
+        raise HTTPException(
+            status_code=400,
+            detail="Email already registered"
+        )
+
+    new_user = User(
+        full_name=data.full_name,
+        email=data.email,
+        hashed_password=hash_password(data.password),
+        role=data.role
+    )
+
+    db.add(new_user)
+    db.commit()
+    db.refresh(new_user)
+
+    return {
+        "message": "User created successfully",
+        "user_id": new_user.id,
+        "full_name": new_user.full_name,
+        "email": new_user.email,
+        "role": new_user.role
+    }
