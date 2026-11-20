@@ -15,6 +15,7 @@ from app.routes.mobile import router as mobile_router
 from app.routes.cameras import router as cameras_router
 from app.routes.incidents import router as incidents_router
 from app.routes.assignments import router as assignments_router
+from app.routes.notifications import router as notifications_router
 
 
 # Project paths
@@ -94,6 +95,7 @@ app.include_router(
 )
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(assignments_router)
+app.include_router(notifications_router)
 
 
 # Static Image Serving
