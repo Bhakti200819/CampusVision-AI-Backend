@@ -14,6 +14,7 @@ from app.routes.video import router as video_router
 from app.routes.mobile import router as mobile_router
 from app.routes.cameras import router as cameras_router
 from app.routes.incidents import router as incidents_router
+from app.routes.assignments import router as assignments_router
 
 
 # Project paths
@@ -92,6 +93,7 @@ app.include_router(
     tags=["Incidents"],
 )
 app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
+app.include_router(assignments_router)
 
 
 # Static Image Serving
