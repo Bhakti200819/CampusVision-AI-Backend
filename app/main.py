@@ -18,6 +18,7 @@ from app.routes.incidents import router as incidents_router
 from app.routes.assignments import router as assignments_router
 from app.routes.notifications import router as notifications_router
 from app.routes.classroom_departments import router as classroom_departments_router
+from app.routes.admin_setup import router as admin_setup_router
 
 
 # Project paths
@@ -99,6 +100,7 @@ app.include_router(auth_router, prefix="/auth", tags=["Authentication"])
 app.include_router(assignments_router)
 app.include_router(notifications_router)
 app.include_router(classroom_departments_router)
+app.include_router(admin_setup_router)
 
 
 # Static Image Serving
