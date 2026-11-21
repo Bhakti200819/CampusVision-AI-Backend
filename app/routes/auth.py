@@ -1,6 +1,6 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 from typing import Literal
 
 from app.auth_database import get_auth_db
@@ -147,3 +147,32 @@ def admin_create_user(
         "email": new_user.email,
         "role": new_user.role
     }
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str
+    new_password: str = Field(min_length=12, max_length=128)
+
+
+@router.post("/change-password")
+def change_password(
+    data: ChangePasswordRequest,
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_auth_db)
+):
+    user_id = int(current_user.get("sub"))
+
+    user = db.query(User).filter(User.id == user_id).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if not verify_password(data.current_password, user.hashed_password):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+
+    if data.current_password == data.new_password:
+        raise HTTPException(status_code=400, detail="New password must be different")
+
+    user.hashed_password = hash_password(data.new_password)
+    db.commit()
+
+    return {"message": "Password changed successfully"}
