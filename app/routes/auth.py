@@ -153,6 +153,32 @@ class ChangePasswordRequest(BaseModel):
     new_password: str = Field(min_length=12, max_length=128)
 
 
+@router.get("/admin/users")
+def get_admin_users(
+    current_user: dict = Depends(get_current_user),
+    db: Session = Depends(get_auth_db)
+):
+    if current_user.get("role") != "admin":
+        raise HTTPException(
+            status_code=403,
+            detail="Only Admin can view users"
+        )
+
+    users = db.query(User).all()
+
+    return [
+        {
+            "user_id": user.id,
+            "full_name": user.full_name,
+            "email": user.email,
+            "role": user.role,
+            "is_active": user.is_active
+        }
+        for user in users
+    ]
+
+
+
 @router.post("/change-password")
 def change_password(
     data: ChangePasswordRequest,
