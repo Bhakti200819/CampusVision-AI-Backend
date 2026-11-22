@@ -86,3 +86,41 @@ def setup_first_admin(
         "email": user.email,
         "role": user.role
     }
+
+class AdminPasswordResetRequest(BaseModel):
+    email: EmailStr
+    new_password: str = Field(min_length=12, max_length=128)
+
+
+@router.post("/admin/reset-password")
+def reset_admin_password(
+    data: AdminPasswordResetRequest,
+    x_admin_setup_key: str = Header(..., alias="X-Admin-Setup-Key"),
+    db: Session = Depends(get_auth_db)
+):
+    setup_key = os.getenv("ADMIN_SETUP_KEY")
+    setup_email = os.getenv("ADMIN_SETUP_EMAIL")
+
+    if not setup_key or not setup_email:
+        raise HTTPException(status_code=503, detail="Reset is not configured")
+
+    if not secrets.compare_digest(x_admin_setup_key, setup_key):
+        raise HTTPException(status_code=403, detail="Invalid setup key")
+
+    if data.email.lower() != setup_email.strip().lower():
+        raise HTTPException(status_code=403, detail="Email not authorized")
+
+    user = db.query(User).filter(
+        User.email == data.email,
+        User.role == "admin"
+    ).first()
+
+    if not user:
+        raise HTTPException(status_code=404, detail="Admin account not found")
+
+    user.hashed_password = hash_password(data.new_password)
+    user.is_active = True
+
+    db.commit()
+
+    return {"message": "Admin password reset successfully"}
