@@ -53,3 +53,4 @@ python-dotenv
 pwdlib[argon2]
 python-jose[cryptography]
 email-validator
+psycopg[binary]>=3.2.9,<4
